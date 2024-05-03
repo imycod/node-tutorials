@@ -29,3 +29,9 @@ npx tsc --init
   },
 }
 ```
+
+referece: 
+
+```
+How to Setup Node.js with TypeScript in 2023
+```
