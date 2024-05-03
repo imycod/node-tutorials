@@ -1,11 +1,14 @@
 import express, {Express, Request, Response} from 'express';
+import path from 'path';
 
 const app: Express = express()
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../src/views')); // 执行的目录是dist，因此需要回退到src目录
+console.log('__dirname---',__dirname)
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!111')
+    res.render('home')
 })
 
 app.listen(3000, () => {
