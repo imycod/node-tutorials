@@ -35,3 +35,9 @@ referece:
 ```
 How to Setup Node.js with TypeScript in 2023
 ```
+
+```cmd
+npm run serve
+tsc -w & node ./dist/index.js
+```
+
