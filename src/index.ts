@@ -1,9 +1,11 @@
-import fs from "fs"
-import {hey} from "./helper.js";
+import express, {Express, Request, Response} from 'express';
 
-import yo from "./helper.cjs"
+const app: Express = express()
 
-console.log(hey)
-console.log(yo)
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!11112222')
+})
 
-console.log(111)
+app.listen(3000, () => {
+    console.log('Server is running on port 3000')
+})
