@@ -5,6 +5,7 @@ const app: Express = express()
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views')); // 执行的目录是dist，因此需要回退到src目录
+app.use(express.static(path.join(__dirname, '../src/views'))); // 执行的目录是dist，因此需要回退到src目录
 console.log('__dirname---',__dirname)
 
 app.get('/', (req: Request, res: Response) => {
