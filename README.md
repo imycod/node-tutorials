@@ -30,14 +30,17 @@ npx tsc --init
 }
 ```
 
-referece: 
-
-```
-How to Setup Node.js with TypeScript in 2023
-```
-
 ```cmd
 npm run serve
 tsc -w & node ./dist/index.js
 ```
 
+----
+
+referece:
+
+```
+How to Setup Node.js with TypeScript in 2023
+TypeScript with Node.js
+How To Use TypeScript With Express & Node
+```
