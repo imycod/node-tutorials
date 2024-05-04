@@ -1,8 +1,10 @@
 import express, {Express, Request, Response} from 'express';
 import path from 'path';
-import authRoutes from "./routes/auth-routes";
-import("./config/passport-setup");
 import {configDotenv} from "dotenv";
+import moogoose from 'mongoose';
+import authRoutes from "./routes/auth-routes";
+
+import("./config/passport-setup");
 
 configDotenv(); // require('dotenv').config() | dotenv.config() by default
 
@@ -11,6 +13,16 @@ const app: Express = express()
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views')); // 执行的目录是dist，因此需要回退到src目录
 app.use(express.static(path.join(__dirname, '../src/views'))); // 执行的目录是dist，因此需要回退到src目录
+
+
+const connection = moogoose.createConnection(process.env.MONGODB_URI as string)
+connection.on('connected', () => {
+    console.log('Connected to MongoDB')
+})
+connection.on('error', (error) => {
+    console.log('Error connecting to MongoDB', error)
+})
+
 
 app.use('/auth', authRoutes);
 app.get('/', (req: Request, res: Response) => {
