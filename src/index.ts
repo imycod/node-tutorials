@@ -3,8 +3,8 @@ import path from 'path';
 import cookieSession from 'cookie-session';
 import {configDotenv} from "dotenv";
 import moogoose from 'mongoose';
-import passport from "passport";
 import authRoutes from "./routes/auth-routes";
+import profileRoutes from "./routes/profile-routes"
 import setupPassport from "./config/passport-setup";
 
 configDotenv(); // require('dotenv').config() | dotenv.config() by default
@@ -30,6 +30,7 @@ moogoose.connect(process.env.MONGODB_URI as string)
     })
 
 app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes)
 app.get('/', (req: Request, res: Response) => {
     res.render('home')
 })
