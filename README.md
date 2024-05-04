@@ -1,4 +1,4 @@
-## setup 
+## setup
 
 ```cmd
 npm init -y
@@ -10,7 +10,7 @@ npx tsc --init
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "NodeNext",                          
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "sourceMap": true,
     "outDir": "./dist"
@@ -40,8 +40,13 @@ tsc -w & node ./dist/index.js
 referece:
 
 ```
+https://console.cloud.google.com/  // google credentials
+google oauth2 passport nodejs
 How to Setup Node.js with TypeScript in 2023
 TypeScript with Node.js
 How To Use TypeScript With Express & Node
 OAuth (Passport.js) Tutorial #3 - Settingup an Express App
+Passport GoogleStrategy/FacebookStrategy “InternalOAuthError: Failed to obtain access token“ 解决方案
+
+passport-oauth2/issues/59
 ```
