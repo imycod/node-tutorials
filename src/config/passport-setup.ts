@@ -2,19 +2,24 @@ import passport from 'passport';
 import GoogleOAuth2 from 'passport-google-oauth20';
 import {HttpsProxyAgent} from "https-proxy-agent";
 import User from "../models/user.model"
+import {configDotenv} from "dotenv";
+import {Request, Response} from "express";
+
+configDotenv();
 
 const GoogleStrategy = GoogleOAuth2.Strategy;
 
 // once we have the user or user tag, we need to store the user in the session
 // 会和cookieSession一起工作
-passport.serializeUser((user,done)=>{
+passport.serializeUser((user, done) => {
     // 调用这个函数，这个函数会自动的把id传递到某个地方，这个地方会把id放到cookie里面
-    done(null,user.id)
+    // @ts-ignore
+    done(null,user._id)
 })
 
-passport.deserializeUser((id,done)=>{
+passport.deserializeUser((id, done) => {
     // 当用户下次访问我们的网站的时候，我们会拿到cookie里面的id，去找到这个用户
-    User.findById(id).then((user)=> {
+    User.findById(id).then((user) => {
         done(null, user) // 找到后把这个用户传递到下个stage
     })
 })
@@ -32,9 +37,8 @@ const googleStrategy = new GoogleStrategy({
     User.findOne({googleId: profile.id}).then((record) => {
         if (record) {
             // already have the user
-            console.log('user is:', record)
             // 传递给 serializeUser
-            done(null,record)
+            done(null, record)
         } else {
             // if not, create user in our db
             // done(null, profile)
@@ -57,3 +61,22 @@ googleStrategy._oauth2.setAgent(agent)
 
 passport.use(googleStrategy)
 
+export default function setupPassport(app: any) {
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+    // fix passport v0.6 + breaking change
+    app.use(function (request: Request, response: Response, next: Function) {
+        if (request.session && !request.session.regenerate) {
+            request.session.regenerate = (cb: Function) => {
+                cb()
+            }
+            if (request.session && !request.session.save) {
+                request.session.save = (cb: Function) => {
+                    cb()
+                }
+            }
+            next()
+        }
+    })
+}

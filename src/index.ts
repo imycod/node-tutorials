@@ -5,8 +5,7 @@ import {configDotenv} from "dotenv";
 import moogoose from 'mongoose';
 import passport from "passport";
 import authRoutes from "./routes/auth-routes";
-
-import("./config/passport-setup");
+import setupPassport from "./config/passport-setup";
 
 configDotenv(); // require('dotenv').config() | dotenv.config() by default
 
@@ -20,8 +19,7 @@ app.use(cookieSession({
     keys: [process.env.SESSION_COOKIE_KEY as string]
 }));
 // initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
+setupPassport(app)
 
 moogoose.connect(process.env.MONGODB_URI as string)
     .then(() => {
