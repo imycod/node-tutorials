@@ -5,6 +5,8 @@ import User from "../models/user.model"
 
 const GoogleStrategy = GoogleOAuth2.Strategy;
 
+// once we have the user or user tag, we need to store the user in the session
+// 会和cookieSession一起工作
 passport.serializeUser((user,done)=>{
     // 调用这个函数，这个函数会自动的把id传递到某个地方，这个地方会把id放到cookie里面
     done(null,user.id)

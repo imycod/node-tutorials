@@ -1,7 +1,9 @@
 import express, {Express, Request, Response} from 'express';
 import path from 'path';
+import cookieSession from 'cookie-session';
 import {configDotenv} from "dotenv";
 import moogoose from 'mongoose';
+import passport from "passport";
 import authRoutes from "./routes/auth-routes";
 
 import("./config/passport-setup");
@@ -13,6 +15,13 @@ const app: Express = express()
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views')); // 执行的目录是dist，因此需要回退到src目录
 app.use(express.static(path.join(__dirname, '../src/views'))); // 执行的目录是dist，因此需要回退到src目录
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000, // day = hour * minute * second * millisecond
+    keys: [process.env.SESSION_COOKIE_KEY as string]
+}));
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 moogoose.connect(process.env.MONGODB_URI as string)
     .then(() => {
