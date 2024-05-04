@@ -1,5 +1,6 @@
 // create Router instance
 import {Router} from 'express';
+import passport from "passport";
 
 const router = Router();
 
@@ -15,9 +16,13 @@ router.get('/logout', (req, res) => {
 })
 
 // auth/google
-router.get('/google', (req, res) => {
-    // handle with passport
-    res.send('logging in with google')
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+}))
+
+// callback route for google to redirect to
+router.get('/google/callback', passport.authenticate('google'), (req, res) => {
+    res.send('you reached the callback URI')
 })
 
 export default router;
