@@ -104,4 +104,15 @@ app.use(function(request, response, next) {
     next()
 })
 ```
+error-reqlogout-requires-a-callback-function
+https://stackoverflow.com/questions/72336177/error-reqlogout-requires-a-callback-function
+```js
+app.post('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
+```
 
+cookie-session 中间件会将 req.session 对象序列化并加密，然后将结果存储在客户端的 cookie 中。当客户端在后续的请求中发送这个 cookie 时，cookie-session 会自动对其进行解密，并将解密后的结果反序列化为 req.session 对象。  当你调用 req.logout() 时，Passport.js 会清除 req.user 和 req.session 中的用户信息。这意味着，当客户端下次带着旧的 cookie 发送请求时，服务器将无法从这个 cookie 中恢复出有效的用户会话，因为会话信息已经被清除了。这就是 req.logout() 如何实现注销功能的。  需要注意的是，虽然 req.logout() 会清除服务器端的会话信息，但它并不会自动清除客户端的 cookie。客户端的 cookie 只有在达到其设定的过期时间，或者被客户端明确删除后，才会被清除。因此，即使用户已经注销，客户端的 cookie 可能仍然存在，只是它包含的会话信息已经无效了。

@@ -6,13 +6,17 @@ const router = Router();
 
 // auth/login
 router.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login',{user: req.user})
 })
 
 // auth/logout
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res,next) => {
     // handle with passport
-    res.send('logging out')
+    // @ts-ignore
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
 })
 
 // auth/google
