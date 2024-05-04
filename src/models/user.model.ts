@@ -7,6 +7,6 @@ const userSchema = new Schema({
     googleId: String
 })
 
-const User =moogoose.model('user',userSchema);
+const User = moogoose.model('user', userSchema);
 
 export default User;

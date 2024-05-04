@@ -14,15 +14,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views')); // 执行的目录是dist，因此需要回退到src目录
 app.use(express.static(path.join(__dirname, '../src/views'))); // 执行的目录是dist，因此需要回退到src目录
 
-
-const connection = moogoose.createConnection(process.env.MONGODB_URI as string)
-connection.on('connected', () => {
-    console.log('Connected to MongoDB')
-})
-connection.on('error', (error) => {
-    console.log('Error connecting to MongoDB', error)
-})
-
+moogoose.connect(process.env.MONGODB_URI as string)
+    .then(() => {
+        console.log('Connected to MongoDB')
+    })
+    .catch((error) => {
+        console.log('Error connecting to MongoDB', error)
+    })
 
 app.use('/auth', authRoutes);
 app.get('/', (req: Request, res: Response) => {
