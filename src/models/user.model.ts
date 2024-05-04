@@ -4,7 +4,8 @@ const Schema = moogoose.Schema
 
 const userSchema = new Schema({
     username: String,
-    googleId: String
+    googleId: String,
+    thumbnail: String
 })
 
 const User = moogoose.model('user', userSchema);

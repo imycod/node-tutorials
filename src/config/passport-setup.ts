@@ -14,7 +14,7 @@ const GoogleStrategy = GoogleOAuth2.Strategy;
 passport.serializeUser((user, done) => {
     // 调用这个函数，这个函数会自动的把id传递到某个地方，这个地方会把id放到cookie里面
     // @ts-ignore
-    done(null,user._id)
+    done(null, user._id)
 })
 
 passport.deserializeUser((id, done) => {
@@ -41,10 +41,10 @@ const googleStrategy = new GoogleStrategy({
             done(null, record)
         } else {
             // if not, create user in our db
-            // done(null, profile)
             new User({
                 username: profile.displayName,
-                googleId: profile.id
+                googleId: profile.id,
+                thumbnail: profile._json.picture
             }).save().then((newUser) => {
                 console.log('new user created: ', newUser)
                 done(null, newUser) // when we call done, it will call serializeUser
