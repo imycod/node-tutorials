@@ -59,3 +59,10 @@ HTTP_PROXY = xx
 ```
 1. 中国区需要设置代理 参见 passport-oauth2/issues/59 / googleStrategy._oauth2.setAgent(agent)
 2. google credentials 设置GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET
+
+process.env
+    -- GOOGLE_CLIENT_ID
+    -- GOOGLE_CLIENT_SECRET
+    -- HTTP_PROXY
+    -- MONGODB_URI
+    -- 
