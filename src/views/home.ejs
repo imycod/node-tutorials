@@ -8,9 +8,13 @@
 <body>
 <nav class="bg-red-500 text-white w-full flex items-center h-20">
     <ul class="flex">
-        <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/auth/logout">logout</a></li>
-        <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/auth/login">login</a></li>
+        <% if (user) { %>
+            <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/auth/logout">logout</a></li>
+        <% } else { %>
+            <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/auth/login">login</a></li>
+        <% } %>
         <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/">homepage</a></li>
+        <li><a class="bg-red-400 p-3 ml-2 rounded-md block hover:shadow-2xl" href="/profile">profile</a></li>
     </ul>
 </nav>
 <div class="pl-2">

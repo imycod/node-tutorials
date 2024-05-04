@@ -32,7 +32,7 @@ moogoose.connect(process.env.MONGODB_URI as string)
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes)
 app.get('/', (req: Request, res: Response) => {
-    res.render('home')
+    res.render('home',{user: req.user})
 })
 
 app.listen(3000, () => {
