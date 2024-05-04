@@ -50,3 +50,12 @@ Passport GoogleStrategy/FacebookStrategy “InternalOAuthError: Failed to obtain
 
 passport-oauth2/issues/59
 ```
+
+.env
+```
+GOOGLE_CLIENT_ID = xx
+GOOGLE_CLIENT_SECRET = xx
+HTTP_PROXY = xx
+```
+1. 中国区需要设置代理 参见 passport-oauth2/issues/59 / googleStrategy._oauth2.setAgent(agent)
+2. google credentials 设置GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET
