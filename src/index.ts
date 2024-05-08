@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const app: Express = express()
 
 import userRoutes from './routes/user.route'
+import authRoutes from "./routes/auth.route"
 
 try{
     mongoose.connect('mongodb://localhost:27017/tutorial_db')
@@ -13,6 +14,8 @@ try{
 app.use(express.json())
 
 app.use('/user', userRoutes)
+app.use('/auth', authRoutes)
+
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')
 })

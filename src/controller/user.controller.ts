@@ -23,7 +23,14 @@ const findUserWithPassword = async (req: Request, res: Response) => {
 					res.json({message: 'error', data: err});
 				} else {
 					if (match) {
-						res.json({message: 'done', data: u});
+						// 不要返回密码
+						res.json({
+							message: 'done',
+							data: {
+								_id: u._id,
+								username: u.username
+							}
+						});
 					} else {
 						res.json({message: 'invalid password'});
 					}
@@ -43,12 +50,15 @@ const updateUser = async (req: Request, res: Response) => {
 					res.json({message: 'error', data: err});
 				} else {
 					if (match) {
+						// 若newPassword不存在，则会报Path password is required错误
 						u.password = req.body.newPassword;
 						u.save().then(function (u) {
 							res.json({message: 'done', data: u});
 						}).catch(function (err) {
 							res.json({message: 'error', data: err});
 						});
+					} else {
+						res.json({message: 'invalid password'});
 					}
 				}
 			})
@@ -65,8 +75,18 @@ const findUsers = async (req: Request, res: Response) => {
 	});
 }
 
+const findUser = async (req: Request, res: Response) => {
+	User.findOne({_id: req.params.id}).then(function (user) {
+		res.json({message: 'done', data: user});
+	}).catch(function (err) {
+		res.json({message: 'error', data: err});
+	});
+}
+
 export default {
 	createUser,
+	findUsers,
+	findUser,
+	updateUser,
 	findUserWithPassword,
-	findUsers
 }
