@@ -8,8 +8,7 @@
     "serve": "concurrently \"npx tsc -w\"  \"nodemon ./dist/index.js\"",
     "prestart": "npm run build",
     "start": "node ./dist/index.js",
-    "build": "rimraf dist && npx tsc",
-    "pm2:dev": "pm2-dev ./dist/index.js"
+    "build": "rimraf dist && npx tsc"
   },
   "keywords": [],
   "author": "",
