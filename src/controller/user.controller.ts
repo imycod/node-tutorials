@@ -1,6 +1,7 @@
 import User from "../models/user.model"
 
 const createUser = async (req: Request, res: Response) => {
+	console.log('req.body---', req.body)
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password
@@ -28,6 +29,29 @@ const findUserWithPassword = async (req: Request, res: Response) => {
 					}
 				}
 			});
+		}
+	})
+}
+
+const updateUser = async (req: Request, res: Response) => {
+	User.findOne({username: req.body.username}).then(function (u) {
+		if (!u) {
+			res.json({message: 'user not found'});
+		} else {
+			u.verifyPassword(req.body.password, function (err, match) {
+				if (err) {
+					res.json({message: 'error', data: err});
+				} else {
+					if (match) {
+						u.password = req.body.newPassword;
+						u.save().then(function (u) {
+							res.json({message: 'done', data: u});
+						}).catch(function (err) {
+							res.json({message: 'error', data: err});
+						});
+					}
+				}
+			})
 		}
 	})
 }

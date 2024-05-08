@@ -18,6 +18,7 @@ const userSchema = new Schema({
 userSchema.pre('save', function (next) {
 	const self = this;
 
+	// password有没被修改，如果没有被修改直接返回false，不需要再次加密
 	if (!self.isModified('password')) {
 		return next();
 	}
