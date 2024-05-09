@@ -1,7 +1,13 @@
+// @ts-nocheck
 import User from "../models/user.model"
 
 const createUser = async (req: Request, res: Response) => {
 	console.log('req.body---', req.body)
+	if (!req.body) {
+		res.status(400).send('Request body is missing');
+		return;
+	}
+
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password
@@ -75,7 +81,7 @@ const findUsers = async (req: Request, res: Response) => {
 	});
 }
 
-const findUser = async (req: Request, res: Response) => {
+const findUserById = async (req: Request, res: Response) => {
 	User.findOne({_id: req.params.id}).then(function (user) {
 		res.json({message: 'done', data: user});
 	}).catch(function (err) {
@@ -86,7 +92,7 @@ const findUser = async (req: Request, res: Response) => {
 export default {
 	createUser,
 	findUsers,
-	findUser,
+	findUserById,
 	updateUser,
 	findUserWithPassword,
 }

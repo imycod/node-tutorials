@@ -2,6 +2,8 @@ import express, {Express, Request, Response} from 'express';
 import mongoose from "mongoose";
 const app: Express = express()
 
+// import "./config/passport-setup"
+
 import userRoutes from './routes/user.route'
 import authRoutes from "./routes/auth.route"
 

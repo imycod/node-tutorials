@@ -1,8 +1,9 @@
-import mongoose from "./base"
+import mongoose, {BaseSchema as Schema} from "./base"
 import bcrypt from "bcrypt-nodejs"
 
-const Schema = mongoose.BaseSchema
+// const Schema = mongoose.BaseSchema
 
+// @ts-ignore
 const userSchema = new Schema({
 	username: {
 		type: String,
@@ -15,16 +16,19 @@ const userSchema = new Schema({
 	}
 })
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function (next: (err: Error) => void) {
+	// @ts-ignore
 	const self = this;
 
 	// password有没被修改，如果没有被修改直接返回false，不需要再次加密
 	if (!self.isModified('password')) {
+		// @ts-ignore
 		return next();
 	}
 
 	bcrypt.genSalt(5, function (err, salt) {
 		if (err) {
+			// @ts-ignore
 			return next(err);
 		}
 
@@ -34,13 +38,14 @@ userSchema.pre('save', function (next) {
 			}
 
 			self.password = hash;
+			// @ts-ignore
 			next();
 		});
 
 	});
 });
 
-userSchema.methods.verifyPassword = function (password, callback) {
+userSchema.methods.verifyPassword = function (password:string, callback: (err: any, match?: boolean) => void) {
 	bcrypt.compare(password, this.password, function (err, match) {
 		if (err) {
 			return callback(err);
