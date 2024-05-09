@@ -4,18 +4,34 @@ import {Strategy as LocalStrategy} from 'passport-local'
 import User from "../models/user.model";
 
 passport.use(new LocalStrategy(
+	{
+		usernameField: 'email',
+		passwordField: 'password'
+	},
 	function (username, password, done) {
-		User.findOne({username: username}, function (err: Error | null, user: any) {
-			if (err) {
-				return done(err);
+		User.findOne({username: username}).then(function (u) {
+			if (!u) {
+				const error = new Error('user not found.');
+				return done(error, false);
+			} else {
+				u.verifyPassword(password, function (err, match) {
+					if (match) {
+						return done(null, u);
+					} else {
+						const error = new Error('Incorrect password');
+						return done(error, false);
+					}
+				});
 			}
-			if (!user) {
-				return done(null, false);
-			}
-			if (!user.verifyPassword(password)) {
-				return done(null, false);
-			}
-			return done(null, user);
-		});
+		})
 	}
 ));
+
+const isAuthenticated = passport.authenticate('local', {
+	session: false,
+	failWithError: true
+})
+
+export {
+	isAuthenticated
+}
