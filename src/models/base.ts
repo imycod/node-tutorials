@@ -3,10 +3,12 @@
 // const util = require('util');
 // const Bluebird = require('bluebird');
 import mongoose, {Schema, Document} from 'mongoose';
-import Bluebird from 'bluebird';
+// import {Promise} from 'bluebird';
+const Bluebird = require('bluebird');
 import util from 'util';
 
-mongoose.Promise = Bluebird;
+mongoose.Promise = Bluebird
+Bluebird.promisifyAll(mongoose);
 
 // const Schema = mongoose.Schema;
 

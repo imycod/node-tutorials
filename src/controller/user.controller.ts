@@ -1,5 +1,6 @@
 // @ts-nocheck
 import User from "../models/user.model"
+import Bluebird from 'bluebird';
 
 const createUser = async (req: Request, res: Response) => {
 	console.log('req.body---', req.body)
@@ -12,7 +13,14 @@ const createUser = async (req: Request, res: Response) => {
 		username: req.body.username,
 		password: req.body.password
 	})
-	user.save().then(function (u) {
+
+	const promise = user.save()
+	if (promise instanceof Bluebird) {
+		console.log('The save operation returns a Bluebird promise.');
+	} else {
+		console.log('The save operation does not return a Bluebird promise.');
+	}
+	promise.then(function (u) {
 		res.json({message: 'done', data: u});
 	}).catch(function (err) {
 		res.json({message: 'error', data: err});
@@ -89,10 +97,19 @@ const findUserById = async (req: Request, res: Response) => {
 	});
 }
 
+const deleteUserById = async (req: Request, res: Response) => {
+	User.findOneAndDelete({_id: req.params.id}).then(function (user) {
+		res.json({message: 'done', data: user});
+	}).catch(function (err) {
+		res.json({message: 'error', data: err});
+	});
+}
+
 export default {
 	createUser,
 	findUsers,
 	findUserById,
 	updateUser,
 	findUserWithPassword,
+	deleteUserById,
 }
